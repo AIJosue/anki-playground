@@ -88074,7 +88074,7 @@ k=m?"Hide Sidebar":"Show Sidebar"
 m=m?B.aB.a_(0.5):B.O
 B.b.K(o,A.b([A.aNb(d,d,d,l,d,d,e.gaik(),d,d,A.axZ(d,m,d,d,d,d,d,d,d,d,d,d,B.Ar,B.hw,new A.d4(A.aj(10),B.B),d,d,d),k),B.b0],p))}o.push(A.an(d,B.E3,B.l,d,d,new A.ab(d,d,d,A.aj(10),A.b([new A.bk(0,B.L,B.r.a_(0.28),B.bb,8)],t.V),B.pu,d,B.p),d,34,d,d,d,d,d,34))
 o.push(B.dg)
-m=A.bs(A.b([new A.i_(1,B.cH,A.a1(a3?"Study Studio":"Study Studio \u2022 Sequoia",d,B.aH,B.W4,d),d),B.b0,A.an(d,B.XN,B.l,d,d,new A.ab(B.r.a_(0.12),d,d,A.aj(6),d,d,d,B.p),d,d,d,d,B.Gr,d,d,d)],p),B.t,B.o,B.v)
+m=A.bs(A.b([new A.i_(1,B.cH,A.a1(a3?"Anki Playground":"Anki Playground",d,B.aH,B.W4,d),d),B.b0,A.an(d,B.XN,B.l,d,d,new A.ab(B.r.a_(0.12),d,d,A.aj(6),d,d,d,B.p),d,d,d,d,B.Gr,d,d,d)],p),B.t,B.o,B.v)
 o.push(A.cz(A.bq(A.b([m,B.Ay,A.bs(A.b([A.an(d,d,B.l,d,d,new A.ab(a0===100?B.q:B.r,d,d,d,d,d,d,B.c0),d,6,d,d,d,d,d,6),B.bL,A.cz(A.a1(""+b+" Cards \u2022 "+e.a.at+" Due \u2022 "+a0+"% Mastered",d,B.aH,B.W1,d),1)],p),B.t,B.o,B.v)],p),B.ab,B.o,B.a4),1))
 m=e.a.Q?B.ao.a_(0.14):B.aB.a_(0.65)
 l=A.aj(14)
@@ -88357,7 +88357,7 @@ $S:602}
 A.Ol.prototype={
 M(a){var s=null,r=$.bd(),q=r.Z(34,B.A,1.2058823529411764,0.37),p=r.Z(28,B.A,1.2142857142857142,0.36),o=r.Z(22,B.A,1.2727272727272727,0.35),n=r.Z(22,B.A,1.2727272727272727,0.35),m=r.Z(20,B.x,1.25,0.38),l=r.Z(17,B.x,1.2941176470588236,-0.41),k=r.Z(20,B.x,1.25,0.38),j=r.Z(17,B.x,1.2941176470588236,-0.41),i=r.Z(15,B.x,1.3333333333333333,-0.24)
 i=A.afM(r.Z(17,B.n,1.2941176470588236,-0.41),r.Z(16,B.n,1.3125,-0.32),r.Z(15,B.n,1.3333333333333333,-0.24),q,p,o,n,m,l,r.Z(17,B.x,1.2941176470588236,-0.41),r.Z(13,B.n,1.3846153846153846,-0.08),r.Z(11,B.n,1.1818181818181819,0.07),k,j,i)
-return new A.zw(B.SE,"Study Studio \u2022 Apple HIG Suite",A.ayT(B.aj,B.i,new A.rv(s,B.i,s,s,0,s,new A.d4(A.aj(18),B.fX)),B.Ea,B.EH,"Inter",B.K6,B.r,B.aw,i,!0),!1,s)}}
+return new A.zw(B.SE,"Anki Playground",A.ayT(B.aj,B.i,new A.rv(s,B.i,s,s,0,s,new A.d4(A.aj(18),B.fX)),B.Ea,B.EH,"Inter",B.K6,B.r,B.aw,i,!0),!1,s)}}
 A.ct.prototype={}
 A.zD.prototype={}
 A.cE.prototype={}
