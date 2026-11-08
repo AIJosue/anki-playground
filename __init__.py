@@ -1,5 +1,5 @@
 """
-Study Studio - Pure Native Anki Add-on Integration Module
+Anki Playground - Pure Native Anki Add-on Integration Module
 Comprehensive 2-way native integration with Anki's database, scheduler (V3/FSRS),
 audio playback (aqt.sound), Deck Browser gear actions, Reviewer bottom bar shortcut,
 and addon config.json options.
@@ -57,7 +57,7 @@ def extract_and_resolve_images(raw_html: str, media_dir: str) -> list[str]:
                         resolved_uris.append(f"data:{mime_type};base64,{encoded}")
                         continue
                 except Exception as e:
-                    print(f"[Study Studio] Image load error: {e}")
+                    print(f"[Anki Playground] Image load error: {e}")
 
         resolved_uris.append(src)
 
@@ -171,20 +171,20 @@ def get_native_anki_decks(target_deck_id: int = None, only_due: bool = False) ->
                     "cards": cards_list,
                 }
     except Exception as e:
-        print(f"[Study Studio] Error querying Anki collection: {e}")
+        print(f"[Anki Playground] Error querying Anki collection: {e}")
 
     if not decks_result and target_deck_id is not None:
         return get_native_anki_decks(None, only_due)
     return decks_result
 
 
-class StudyStudioDialog(QDialog):
-    """Native Anki WebView dialog running Study Studio."""
+class AnkiPlaygroundDialog(QDialog):
+    """Native Anki WebView dialog running Anki Playground."""
 
     def __init__(self, parent=None, initial_deck_id: int = None):
         super().__init__(parent)
         self.initial_deck_id = initial_deck_id
-        self.setWindowTitle("Study Studio • Gamified Learning Suite for Anki")
+        self.setWindowTitle("Anki Playground • Gamified Learning Suite for Anki")
         self.resize(1180, 820)
 
         layout = QVBoxLayout(self)
@@ -200,20 +200,20 @@ class StudyStudioDialog(QDialog):
 
         addon_dir = os.path.dirname(__file__)
         addon_pkg = os.path.basename(addon_dir)
-        web_dir = os.path.join(addon_dir, "study_studio_web")
+        web_dir = os.path.join(addon_dir, "anki_playground_web")
         index_file = os.path.join(web_dir, "index.html")
 
         if os.path.exists(index_file):
             from aqt.qt import QUrl
             if mw and hasattr(mw, "serverURL"):
                 # Serve via Anki's internal media server using registered web exports
-                server_url = f"{mw.serverURL()}_addons/{addon_pkg}/study_studio_web/index.html"
+                server_url = f"{mw.serverURL()}_addons/{addon_pkg}/anki_playground_web/index.html"
                 self.web_view.load_url(QUrl(server_url))
             else:
                 url = QUrl.fromLocalFile(index_file)
                 self.web_view.load_url(url)
         else:
-            self.web_view.stdHtml("<h3>Study Studio build files not found.</h3>")
+            self.web_view.stdHtml("<h3>Anki Playground build files not found.</h3>")
 
     def _on_bridge_cmd(self, cmd: str) -> any:
         handled, res = self.on_js_message((False, None), cmd, self.web_view)
@@ -326,7 +326,7 @@ class StudyStudioDialog(QDialog):
                 new_conf = json.loads(message[len("studystudio:save_config:"):])
                 if mw and mw.addonManager:
                     mw.addonManager.writeConfig(__name__, new_conf)
-                    tooltip("Study Studio preferences saved", parent=self)
+                    tooltip("Anki Playground preferences saved", parent=self)
                 return (True, None)
 
             # 9. Toast message
@@ -336,7 +336,7 @@ class StudyStudioDialog(QDialog):
                 return (True, None)
 
         except Exception as e:
-            print(f"[Study Studio] Error handling message {message}: {e}")
+            print(f"[Anki Playground] Error handling message {message}: {e}")
 
         return handled
 
@@ -355,24 +355,24 @@ class StudyStudioDialog(QDialog):
         super().reject()
 
 
-_study_studio_dialog = None
+_anki_playground_dialog = None
 
 
-def open_study_studio(deck_id: int = None):
-    """Open Study Studio modal, optionally focused on a specific deck."""
-    global _study_studio_dialog
+def open_anki_playground(deck_id: int = None):
+    """Open Anki Playground modal, optionally focused on a specific deck."""
+    global _anki_playground_dialog
     if not mw or not mw.col:
         showInfo("Please open an Anki profile and collection first.")
         return
 
-    _study_studio_dialog = StudyStudioDialog(mw, initial_deck_id=deck_id)
-    _study_studio_dialog.show()
+    _anki_playground_dialog = AnkiPlaygroundDialog(mw, initial_deck_id=deck_id)
+    _anki_playground_dialog.show()
 
 
 # Integration 1: Deck Browser Gear Menu Action
 def on_deck_browser_will_show_options_menu(menu: QMenu, deck_id: int):
-    action = menu.addAction("🎮 Play in Study Studio")
-    action.triggered.connect(lambda: open_study_studio(deck_id=deck_id))
+    action = menu.addAction("🎮 Play in Anki Playground")
+    action.triggered.connect(lambda: open_anki_playground(deck_id=deck_id))
 
 
 # Integration 2: Reviewer Bottom Bar Action Button
@@ -385,7 +385,7 @@ def on_reviewer_webview_will_set_content(web_content: any, context: object):
                     style="background: #007aff; color: white; border: none; padding: 6px 12px; 
                            border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 12px;
                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                🎮 Study Studio
+                🎮 Anki Playground
             </button>
         </div>
         """
@@ -395,7 +395,7 @@ def on_reviewer_js_message(handled: tuple[bool, any], message: str, context: any
     if message == "studystudio:launch_from_reviewer":
         if mw and mw.col:
             selected_deck_id = mw.col.decks.selected()
-            open_study_studio(deck_id=selected_deck_id)
+            open_anki_playground(deck_id=selected_deck_id)
             return (True, None)
     return handled
 
@@ -403,14 +403,14 @@ def on_reviewer_js_message(handled: tuple[bool, any], message: str, context: any
 def init_addon():
     """Register menu shortcuts, hooks, and web exports."""
     try:
-        mw.addonManager.setWebExports(__name__, r"study_studio_web/.*")
+        mw.addonManager.setWebExports(__name__, r"anki_playground_web/.*")
     except Exception:
         pass
 
     # Tools Menu & Shortcut
-    action = QAction("Study Studio", mw)
+    action = QAction("Anki Playground", mw)
     action.setShortcut("Ctrl+Shift+S")
-    action.triggered.connect(lambda: open_study_studio())
+    action.triggered.connect(lambda: open_anki_playground())
     mw.form.menuTools.addAction(action)
 
     # Hook: Deck Browser Gear Menu

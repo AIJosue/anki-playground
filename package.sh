@@ -4,24 +4,33 @@ set -e
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DIR"
 
-echo "Packaging study_studio.ankiaddon..."
-rm -f study_studio.ankiaddon
-zip -r study_studio.ankiaddon __init__.py manifest.json config.json study_studio_web/
+echo "Packaging anki_playground.ankiaddon..."
+rm -f anki_playground.ankiaddon study_studio.ankiaddon
+zip -r anki_playground.ankiaddon __init__.py manifest.json config.json anki_playground_web/
 
 # Sync targets: env override, Flatpak Anki, native Linux Anki, macOS Anki
 CANDIDATES=(
     "${ANKI_ADDONS_DIR:-}"
-    "$HOME/.var/app/net.ankiweb.Anki/data/Anki2/addons21/study_studio"
-    "$HOME/.local/share/Anki2/addons21/study_studio"
-    "$HOME/Library/Application Support/Anki2/addons21/study_studio"
+    "$HOME/.var/app/net.ankiweb.Anki/data/Anki2/addons21/anki_playground"
+    "$HOME/.local/share/Anki2/addons21/anki_playground"
+    "$HOME/Library/Application Support/Anki2/addons21/anki_playground"
 )
 
 SYNCED=0
 for TARGET in "${CANDIDATES[@]}"; do
-    if [ -n "$TARGET" ] && [ -d "$TARGET" ]; then
-        echo "Syncing directly to Anki addons directory: $TARGET"
-        cp -r __init__.py manifest.json config.json study_studio_web "$TARGET/"
-        SYNCED=1
+    if [ -n "$TARGET" ]; then
+        PARENT="$(dirname "$TARGET")"
+        if [ -d "$TARGET" ] || [ -d "$PARENT" ]; then
+            LEGACY="$PARENT/study_studio"
+            if [ -d "$LEGACY" ]; then
+                echo "Removing legacy addon directory: $LEGACY"
+                rm -rf "$LEGACY"
+            fi
+            mkdir -p "$TARGET"
+            echo "Syncing directly to Anki addons directory: $TARGET"
+            cp -r __init__.py manifest.json config.json anki_playground_web "$TARGET/"
+            SYNCED=1
+        fi
     fi
 done
 
