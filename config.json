@@ -1,0 +1,6 @@
+{
+  "max_cards_per_deck": 200,
+  "only_due_cards": false,
+  "auto_play_audio": true,
+  "default_activity": "flashcards"
+}
